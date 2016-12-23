@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>animation</title>
+	<script type="text/javascript" src="animation/animation.js"></script>
+	<style type="text/css">
+		.cube{
+			width:100px;
+			height:100px;
+			background:#f09;
+		}
+	</style>
+</head>
+<body>
+	<div class="cube" id="block"></div>
+	<script type="text/javascript">
+		var block = document.getElementById('block');
+		var a1 = new Animation(1000,  function(p){
+	    	var tx = 100 * p;
+
+		    block.style.transform = "translateX(" 
+		      + tx + "px)";     
+		  });
+
+		var a2 = new Animation(1000,  function(p){
+		  var ty = 100 * p;
+
+		  block.style.transform = "translate(100px," 
+		    + ty + "px)";     
+		});
+
+		var a3 = new Animation(1000,  function(p){
+		  var tx = 100 * (1-p);
+		  block.style.transform = "translate(" 
+		    + tx + "px, 100px)";     
+		});
+
+		var a4 = new Animation(1000,  function(p){
+		  var ty = 100 * (1-p);
+		  block.style.transform = "translateY("  
+		    + ty + "px)";     
+		});
+
+
+		block.addEventListener("click", function(){
+		  var animators = new AnimationQueen();
+		  animators.append(a1, a2, a3, a4);
+		  animators.flush();
+		});
+		
+		// block.addEventListener("click", function(){
+		//   a1.start(function(){
+		//     a2.start(false);
+		//   });
+		// });
+	</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>drawimage</title>
+	<style type="text/css">
+		*{
+			margin-left: 0;
+		}
+	</style>
+</head>
+<body>
+	<canvas width="800px" height="800px" id="drawImage" style="border:1px solid #ccc;"></canvas>
+	<canvas width="300px" height="100px" id="watermask" style="display:none;"></canvas>
+	<canvas width="200px" height="200px" id="zoomImage" style="border-radius:50%;border:1px solid #f09;display:none;"></canvas>
+	<input type="range" style="width:800px;display:block;" max="3.0" min="0.5" step="0.01" value="1.0" id="range" />
+	<script type="text/javascript" src='index.js'></script>
+</body>
+<!-- http://www.imooc.com/opus/resource?opus_id=857&tree=%2FCanvasMagnifier%2Fcanvas.html -->
+</html>
