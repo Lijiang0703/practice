@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>basic binarytree</title>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+	<script type="text/javascript">
+		//二叉树实现测试
+
+		//生成二叉树
+		function Tree(key){
+			this.key = key;
+			this.left = null;
+			this.right = null;
+		}
+
+		var oldNode = null;  //根节点
+
+		var inserNode =function(key){
+			var newNode = new Tree(key);
+			if(oldNode == null){
+				oldNode = newNode;
+			}else{
+				insert(newNode,oldNode);
+			}
+		}	
+
+		var insert = function(node,oldNode){
+			if(node.key > oldNode.key){
+				if(oldNode.right == null) oldNode.right = node;
+				else insert(node,oldNode.right);
+			}else if(node.key < oldNode.key){
+				if(oldNode.left == null) oldNode.left = node;
+				else insert(node,oldNode.left);
+			}
+		}
+
+		var nodelist = [8,3,10,1,6,13,4,7];
+		nodelist.forEach(function(node){
+			inserNode(node);
+		})
+		console.log(oldNode);
+
+		// 中序遍历  根据中间节点，先遍历左节点，后遍历右节点
+		var middle = function(node,result){
+			if(!result) result = [];
+			if(node!=null){
+				middle(node.left,result);
+				result.push(node.key);
+				middle(node.right,result);
+			}
+
+			// if(node.left != null){
+			// 	middle(node.left,result);
+			// }
+			
+			// result.push(node.key);
+
+			// if(node.right != null){
+			// 	middle(node.right,result);
+			// }
+			return result;
+		}
+
+		var result = middle(oldNode);
+		console.log(result);
+
+		//前序遍历， 在复制一个二叉树的时候效率比重新生成一个二叉树要快10倍
+		// var newTree = null;
+		var left = function(node,callback){
+			if(node!=null){
+				callback(node);
+				left(node.left,callback);
+				left(node.right,callback);
+			}
+		}
+		//后序遍历，在文件系统中用的比较多
+		var right = function(node,callback){	
+			if(node!=null){
+				right(node.left,callback);
+				right(node.right,callback);
+				callback(node);
+			}
+		}
+
+		//查找二叉树
+		var f = 5;
+		var findNode = function(node){
+			if(node != null){
+				if(node.key == f){
+					// console.log('find' + f);
+					return true;
+				}
+				if(node.key > f) return findNode(node.left);
+				if(node.key < f) return findNode(node.right);
+			}
+			return false;
+		}
+		var hasFind = findNode(oldNode)
+		hasFind ?  console.log('finded') :  console.log('not find');
+
+		//查找最小值： 左叶子节点永远是最小的
+		var min = function(node){
+			if(node != null){
+				while(node.left){
+					node = node.left;
+				}
+				console.log('the min node is: ' + node.key);
+			}
+			return null;
+		}
+		//查找最大值的逻辑类似
+
+		min(oldNode);
+
+		// 删除节点
+
+		var deleteNode = function(node,del){
+			if(node == null) return null;
+			if(del < node.key){
+				node.left = deleteNode(node.left,del);
+				return node;
+			} else if(del > node.key){
+				node.right = deleteNode(node.right,del);
+				return node;
+			} else if(del == node.key){
+				if(node.left == null && node.right == null){
+					node = null;
+					return node;
+				} else if(node.right == null){
+					node = node.left; 
+					return node;
+				} else if(node.left == null){
+					node = node.right;
+					return node;
+				} else{
+					//左右节点都存在,算法： 寻找右子树中的最小叶子树，把最小叶子树替换到当前节点，并删除原来的最小叶子数
+					//这步最重要
+					var _node = node.right;
+					while(_node && _node.left){
+						_node = _node.left;
+					}
+					node.key = _node.key;  
+					//删除最小叶子数
+					node.right = deleteNode(node.right,_node.key);
+					return node;
+				}
+			}
+		}
+		console.log(deleteNode(oldNode,3));
+	</script>
+</body>
+</html>

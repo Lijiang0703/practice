@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Face recognition</title>
+	<script type="text/javascript" src="tracking.js"></script>
+	<script type="text/javascript" src="face-min.js"></script>
+
+</head>
+<body>
+	<canvas id="iface" width="800" height="800"></canvas>
+	  <!-- <video id="myVideo" width="400" height="300" preload autoplay loop muted camera="true"></video> -->
+    <!-- <video is="video-color-tracking" target="magenta cyan yellow"></video> -->
+
+
+  <img src="faces.jpg" id="img" style="display: none">
+  <script>
+  var face = new tracking.ObjectTracker("face");
+
+//另外还有识别因子等参数，详见源码
+  face.on('track', function(event) {
+    if (event.data.length === 0) {
+      
+    } else {
+      event.data.forEach(function(rect) {
+      	drawImage(rect);
+      });
+    }
+  });
+
+  tracking.track('#img',face);
+
+  var img = document.getElementById("img");
+  var canvas = document.getElementById('iface');
+  var context = canvas.getContext('2d');
+
+  var drawImage	= function(data){
+    //female   117, 74, 194, 194
+    context.drawImage(img, data.x, data.y, data.width, data.height, data.x, data.y, data.width, data.height);
+  }
+  </script>
+
+</body>
+</html>
