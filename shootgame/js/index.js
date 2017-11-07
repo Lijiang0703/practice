@@ -163,7 +163,7 @@ var Ball = function(cxt,opt){
 	this.y = 185;
 	this.height = this.r*2;
 	this.step = 5;
-	this.dur = 200;
+	this.dur = 300;
 }
 Ball.prototype = {
 	init : function(){
